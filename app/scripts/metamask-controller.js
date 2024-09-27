@@ -2118,6 +2118,7 @@ export default class MetamaskController extends EventEmitter {
       allowedEvents: [],
     });
     this.bridgeController = new BridgeController({
+      provider: this.provider,
       messenger: bridgeControllerMessenger,
     });
 
