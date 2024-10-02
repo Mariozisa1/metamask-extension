@@ -4,7 +4,11 @@ import {
   truthyDigitString,
   validateData,
 } from '../../../../shared/lib/swaps-utils';
-import { BridgeFlag, FeatureFlagResponse } from '../types';
+import {
+  BridgeFlag,
+  FeatureFlagResponse,
+  GasMultiplierByChainId,
+} from '../types';
 
 type Validator<ExpectedResponse> = {
   property: keyof ExpectedResponse | string;
@@ -53,6 +57,22 @@ export const FEATURE_FLAG_VALIDATORS = [
     type: 'object',
     validator: (v: unknown): v is number[] =>
       isValidObject(v) && Object.values(v).every(isValidNumber),
+  },
+  {
+    property: BridgeFlag.APPROVAL_GAS_MULTIPLIER,
+    type: 'object',
+    validator: (v): v is GasMultiplierByChainId =>
+      Object.values(v as { [s: string]: unknown }).every(
+        (i) => typeof i === 'number',
+      ),
+  },
+  {
+    property: BridgeFlag.BRIDGE_GAS_MULTIPLIER,
+    type: 'object',
+    validator: (v): v is GasMultiplierByChainId =>
+      Object.values(v as { [s: string]: unknown }).every(
+        (i) => typeof i === 'number',
+      ),
   },
 ];
 
