@@ -16,6 +16,9 @@ type Validator<ExpectedResponse> = {
   validator?: (value: unknown) => boolean;
 };
 
+type DecChainId = string;
+export type GasMultiplierByDecChainId = Record<DecChainId, number>;
+
 export const validateResponse = <ExpectedResponse>(
   validators: Validator<ExpectedResponse>[],
   data: unknown,
@@ -61,16 +64,16 @@ export const FEATURE_FLAG_VALIDATORS = [
   {
     property: BridgeFlag.APPROVAL_GAS_MULTIPLIER,
     type: 'object',
-    validator: (v): v is GasMultiplierByChainId =>
-      Object.values(v as { [s: string]: unknown }).every(
+    validator: (v): v is GasMultiplierByDecChainId =>
+      Object.values(v as { [s: DecChainId]: unknown }).every(
         (i) => typeof i === 'number',
       ),
   },
   {
     property: BridgeFlag.BRIDGE_GAS_MULTIPLIER,
     type: 'object',
-    validator: (v): v is GasMultiplierByChainId =>
-      Object.values(v as { [s: string]: unknown }).every(
+    validator: (v): v is GasMultiplierByDecChainId =>
+      Object.values(v as { [s: DecChainId]: unknown }).every(
         (i) => typeof i === 'number',
       ),
   },
