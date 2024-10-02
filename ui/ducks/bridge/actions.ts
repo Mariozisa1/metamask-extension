@@ -261,8 +261,8 @@ export const signBridgeTransaction = (
       maxFeePerGas,
       maxPriorityFeePerGas,
     }: {
-      maxFeePerGas: string;
-      maxPriorityFeePerGas: string;
+      maxFeePerGas: string | undefined;
+      maxPriorityFeePerGas: string | undefined;
     }) => {
       console.log('Bridge', 'handleApprovalTx');
 
@@ -321,8 +321,8 @@ export const signBridgeTransaction = (
       maxPriorityFeePerGas,
     }: {
       approvalTxId: string | undefined;
-      maxFeePerGas: string;
-      maxPriorityFeePerGas: string;
+      maxFeePerGas: string | undefined;
+      maxPriorityFeePerGas: string | undefined;
     }) => {
       console.log('Bridge', 'handleBridgeTx');
       const hexChainId = new Numeric(
