@@ -163,7 +163,6 @@ export const submitBridgeTransaction = (
 
     const quoteMetas = getQuotes(state);
     const quoteMeta = quoteMetas[0];
-    console.log('Bridge', 'submitBridgeTransaction', { quoteMeta });
 
     // Track event TODO
 
@@ -198,7 +197,6 @@ export const submitBridgeTransaction = (
     };
 
     const calcMaxGasLimit = (gasLimit: number, gasMultiplier = 1) => {
-      console.log('Bridge', 'calcMaxGasLimit', { gasLimit, gasMultiplier });
       return new Numeric(
         new BigNumber(gasLimit).times(gasMultiplier).round(0).toString(),
         10,
@@ -269,8 +267,6 @@ export const submitBridgeTransaction = (
       maxFeePerGas: string | undefined;
       maxPriorityFeePerGas: string | undefined;
     }) => {
-      console.log('Bridge', 'handleApprovalTx');
-
       const { chainId } = quoteMeta.approval;
       const hexChainId = new Numeric(
         chainId,
@@ -302,7 +298,7 @@ export const submitBridgeTransaction = (
         maxFeePerGas,
         maxPriorityFeePerGas,
       };
-      console.log('Bridge', 'handleApprovalTx sdada', { txParams });
+
       const txMeta = await addTransactionAndWaitForPublish(txParams, {
         requireApproval: false,
         // @ts-expect-error Need TransactionController v37+, TODO add this type
@@ -318,10 +314,9 @@ export const submitBridgeTransaction = (
           },
         },
       });
-      console.log('Bridge', 'handleApprovalTx 222', { txMeta });
+
       await forceUpdateMetamaskState(dispatch);
 
-      console.log('Bridge', { approvalTxId: txMeta.id });
       return txMeta?.id;
     };
 
@@ -334,7 +329,6 @@ export const submitBridgeTransaction = (
       maxFeePerGas: string | undefined;
       maxPriorityFeePerGas: string | undefined;
     }) => {
-      console.log('Bridge', 'handleBridgeTx');
       const hexChainId = new Numeric(
         quoteMeta.trade.chainId,
         10,
@@ -381,7 +375,6 @@ export const submitBridgeTransaction = (
       });
       await forceUpdateMetamaskState(dispatch);
 
-      console.log('Bridge', { bridgeTxId: txMeta.id });
       return txMeta.id;
     };
 
@@ -447,10 +440,6 @@ export const submitBridgeTransaction = (
       }
 
       // Add the token after network is guaranteed to exist
-      console.log('Bridge', 'addDestToken', {
-        networkConfigurations,
-        destNetworkConfig,
-      });
       const rpcEndpointIndex = destNetworkConfig.defaultRpcEndpointIndex;
       const destNetworkClientId =
         destNetworkConfig.rpcEndpoints[rpcEndpointIndex].networkClientId;
@@ -477,14 +466,12 @@ export const submitBridgeTransaction = (
       // Execute transaction(s)
       let approvalTxId: string | undefined;
       if (quoteMeta?.approval) {
-        console.log('Bridge', 'execute', 'handleApprovalTx');
         approvalTxId = await handleApprovalTx({
           maxFeePerGas,
           maxPriorityFeePerGas,
         });
       }
 
-      console.log('Bridge', 'execute', 'handleBridgeTx');
       await handleBridgeTx({
         approvalTxId,
         maxFeePerGas,
@@ -502,7 +489,6 @@ export const submitBridgeTransaction = (
       // Route user to activity tab on Home page
       await dispatch(setDefaultHomeActiveTabName('activity'));
       history.push(DEFAULT_ROUTE);
-      console.log('Bridge', 'execute', 'history.push');
     };
 
     await execute();
