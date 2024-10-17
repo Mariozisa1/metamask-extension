@@ -5,6 +5,7 @@ import { zeroAddress } from 'ethereumjs-util';
 import { useHistory } from 'react-router-dom';
 import { BigNumber } from 'bignumber.js';
 import { NetworkConfiguration } from '@metamask/network-controller';
+import { TransactionMeta } from '@metamask/transaction-controller';
 import {
   BridgeBackgroundAction,
   BridgeUserAction,
@@ -188,7 +189,7 @@ export const submitBridgeTransaction = (
       };
       maxFeePerGas: string | undefined;
       maxPriorityFeePerGas: string | undefined;
-      meta: Record<string, unknown>;
+      meta: Partial<TransactionMeta>; // all fields in meta are merged with TransactionMeta downstream
     }) => {
       const hexChainId = new Numeric(
         txParams.chainId,
@@ -261,6 +262,7 @@ export const submitBridgeTransaction = (
           maxFeePerGas,
           maxPriorityFeePerGas,
           meta: {
+            // @ts-expect-error Need TransactionController v37+, TODO add this type
             type: 'bridgeApproval', // TransactionType.bridgeApproval,
           },
         });
@@ -298,7 +300,8 @@ export const submitBridgeTransaction = (
         maxFeePerGas,
         maxPriorityFeePerGas,
         meta: {
-          type: 'bridgeApproval', // TransactionType.bridgeApproval, // TODO
+          // @ts-expect-error Need TransactionController v37+, TODO add this type
+          type: 'bridgeApproval', // TransactionType.bridgeApproval,
           sourceTokenSymbol: quoteResponse.quote.srcAsset.symbol,
         },
       });
@@ -323,7 +326,8 @@ export const submitBridgeTransaction = (
         meta: {
           // estimatedBaseFee: decEstimatedBaseFee,
           // swapMetaData,
-          type: 'bridge', // TransactionType.bridge, // TODO add this type
+          // @ts-expect-error Need TransactionController v37+, TODO add this type
+          type: 'bridge', // TransactionType.bridge,
           sourceTokenSymbol: quoteResponse.quote.srcAsset.symbol,
           destinationTokenSymbol: quoteResponse.quote.destAsset.symbol,
           destinationTokenDecimals: quoteResponse.quote.destAsset.decimals,
