@@ -2127,7 +2127,10 @@ export default class MetamaskController extends EventEmitter {
     const bridgeStatusControllerMessenger =
       this.controllerMessenger.getRestricted({
         name: BRIDGE_STATUS_CONTROLLER_NAME,
-        allowedActions: [],
+        allowedActions: [
+          'NetworkController:getSelectedNetworkClient',
+          'NetworkController:findNetworkClientIdByChainId',
+        ],
         allowedEvents: ['TransactionController:transactionConfirmed'],
       });
     this.bridgeStatusController = new BridgeStatusController({
@@ -3970,10 +3973,10 @@ export default class MetamaskController extends EventEmitter {
         ),
 
       // Bridge Status
-      [BridgeStatusAction.GET_BRIDGE_TX_STATUS]:
+      [BridgeStatusAction.START_POLLING_FOR_BRIDGE_TX_STATUS]:
         this.controllerMessenger.call.bind(
           this.controllerMessenger,
-          `${BRIDGE_STATUS_CONTROLLER_NAME}:${BridgeStatusAction.GET_BRIDGE_TX_STATUS}`,
+          `${BRIDGE_STATUS_CONTROLLER_NAME}:${BridgeStatusAction.START_POLLING_FOR_BRIDGE_TX_STATUS}`,
         ),
 
       // Smart Transactions
