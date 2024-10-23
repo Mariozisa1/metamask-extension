@@ -448,6 +448,7 @@ export const submitBridgeTransaction = (
             statusRequest,
             quoteResponse,
             slippagePercentage: 0, // TODO pull this from redux/bridgecontroller once it's implemented. currently hardcoded in quoteRequest.slippage right now
+            startTime: bridgeTxMeta.time,
           }),
         );
       }
