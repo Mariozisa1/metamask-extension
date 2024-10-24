@@ -843,8 +843,14 @@
   "bridgeEnterAmount": {
     "message": "Enter amount"
   },
+  "bridgeFastest": {
+    "message": "Fastest"
+  },
   "bridgeFrom": {
     "message": "Bridge from"
+  },
+  "bridgeLowest": {
+    "message": "Lowest"
   },
   "bridgeOverallCost": {
     "message": "Overall cost"
