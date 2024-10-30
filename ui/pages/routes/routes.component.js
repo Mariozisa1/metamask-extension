@@ -89,6 +89,7 @@ import {
   NOTIFICATIONS_ROUTE,
   NOTIFICATIONS_SETTINGS_ROUTE,
   CROSS_CHAIN_SWAP_ROUTE,
+  CROSS_CHAIN_SWAP_TX_DETAILS_ROUTE,
 } from '../../helpers/constants/routes';
 
 import {
@@ -137,6 +138,7 @@ import { MultichainMetaFoxLogo } from '../../components/multichain/app-header/mu
 import NetworkConfirmationPopover from '../../components/multichain/network-list-menu/network-confirmation-popover/network-confirmation-popover';
 import NftFullImage from '../../components/app/assets/nfts/nft-details/nft-full-image';
 import CrossChainSwap from '../bridge';
+import CrossChainSwapTxDetails from '../bridge/transaction-details/transaction-details';
 
 const isConfirmTransactionRoute = (pathname) =>
   Boolean(
@@ -367,6 +369,11 @@ export default class Routes extends Component {
         />
         <Authenticated path={SEND_ROUTE} component={SendPage} exact />
         <Authenticated path={SWAPS_ROUTE} component={Swaps} />
+        <Authenticated
+          path={`${CROSS_CHAIN_SWAP_TX_DETAILS_ROUTE}/:srcTxHash`}
+          component={CrossChainSwapTxDetails}
+          exact
+        />
         <Authenticated
           path={CROSS_CHAIN_SWAP_ROUTE}
           component={CrossChainSwap}
